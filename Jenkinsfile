@@ -1,6 +1,8 @@
 pipeline {
     options { buildDiscarder(logRotator(numToKeepStr: '20')) }
-    agent none
+    agent {
+        label 'medium'
+    }
     stages {
         stage("checkout") {
             agent none
