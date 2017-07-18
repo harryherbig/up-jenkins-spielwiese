@@ -12,15 +12,15 @@ pipeline {
 
                     // maybe use this in the future?
 
-//                    echo "<changes>"
-//                    currentBuild.rawBuild.getChangeSets().each { cs ->
-//                        cs.getItems().each { item ->
-//                            item.getAffectedFiles().each { f ->
-//                                echo f.path
-//                            }
-//                        }
-//                    }
-//                    echo "</changes>"
+                   echo "<changes>"
+                   currentBuild.rawBuild.getChangeSets().each { cs ->
+                       cs.getItems().each { item ->
+                           item.getAffectedFiles().each { f ->
+                               echo f.path
+                           }
+                       }
+                   }
+                   echo "</changes>"
                 }
             }
         }
