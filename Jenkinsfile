@@ -34,20 +34,24 @@ pipeline {
                     String outfile = "changed_folders"
                     sh "rm $outfile || true"
 
+                    envVars = env
+                    echo envVars
                     // calculate affected modules to be build
-                    if (env.GIT_BRANCH == 'master') {
-                        echo "BUILDING MASTER: ${env.GIT_BRANCH}"
+                    if (env.BRANCH_NAME == 'master') {
+                        echo "BUILDING MASTER: ${env.BRANCH_NAME}"
                         // changes between current head and commit before that
                         sh "git diff --name-only HEAD..HEAD^ | cut -d'/' -f-1 | sort | uniq > $outfile"
                     } else {
-                        echo "BUILDING PR / ORIGIN branch: ${env.GIT_BRANCH}"
+                        echo "BUILDING PR / ORIGIN branch: ${env.BRANCH_NAME}"
                         // changes between current head and master head
                         sh "git diff --name-only origin/master..HEAD | cut -d'/' -f-1 | sort | uniq > $outfile"
                     }
 
                     // filter affected modules for whitelisted modules
-                    validModules = readFile(outfile).split("( |\\n|\\r)+").findAll { funkotronModuleWhitelist.contains(it) }
-                    echo "Will build following modules: $validModules"
+                    changedPaths = readFile(outfile)
+                    echo "changed paths: $changedPaths"
+                    validModules = changedPaths.split("( |\\n|\\r)+").findAll { funkotronModuleWhitelist.contains(it) }
+                    echo "Whitelisted modules are: $validModules"
                 }
             }
         }
