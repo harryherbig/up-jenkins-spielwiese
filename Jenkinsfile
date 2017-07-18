@@ -34,8 +34,6 @@ pipeline {
                     String outfile = "changed_folders"
                     sh "rm $outfile || true"
 
-                    envVars = env
-                    echo envVars
                     // calculate affected modules to be build
                     if (env.BRANCH_NAME == 'master') {
                         echo "BUILDING MASTER: ${env.BRANCH_NAME}"
