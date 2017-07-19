@@ -19,7 +19,7 @@ pipeline {
                 script {
                     List<String> funkotronModuleWhitelist = ['article', 'applications']
                     def allChanges = []
-                    currentBuild.changeSets.each { cs -> // currentBuild.rawBuild.getChangeSets()
+                    currentBuild.changeSets.each { cs ->
                         cs.getItems().each { item ->
                             item.getAffectedFiles().each { f ->
                                 allChanges << f.path.split('/')[0]
