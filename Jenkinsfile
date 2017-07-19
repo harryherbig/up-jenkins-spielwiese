@@ -13,14 +13,17 @@ pipeline {
                     // maybe use this in the future?
 
                    echo "<changes>"
+                  def allChanges = []
                    currentBuild.rawBuild.getChangeSets().each { cs ->
                        cs.getItems().each { item ->
                            item.getAffectedFiles().each { f ->
-                               echo f.path
+                               allChanges << f.path.split('/')[0]
                            }
                        }
                    }
                    echo "</changes>"
+                   def uniqueChangedPaths = allChanges.unique()
+                   echo "detected following changes: $uniqueChangedPaths"
                 }
             }
         }
